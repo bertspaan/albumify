@@ -1,0 +1,42 @@
+body {
+	background-color: #070308;
+	font-family: Corbel,
+             "Lucida Grande",
+             "Lucida Sans Unicode",
+             "Lucida Sans",
+             "DejaVu Sans",
+             "Bitstream Vera Sans",
+             "Liberation Sans",
+             Verdana,
+             sans-serif;
+	font-size: 12px;
+}
+
+ul#albums {
+	list-style-position: none;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul#albums a {
+	text-decoration:  none;
+}
+
+ul#albums li {
+	display: inline;
+	float: left;
+	margin: 4px;
+	width: 185px;
+	text-align: center;
+}
+
+ul#albums li img {
+	padding: 1px;
+	background-color: #ffffff;
+}
+
+ul#albums li span {
+	color: #ffffff; 	
+	font-size: 90%;
+}
