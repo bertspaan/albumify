@@ -1,0 +1,4 @@
+<li data-internalid="{{ album.key.id }}">				
+	<a class="album" href="{{ album.uri }}"><img src="{{ album.image }}" /><span class="artist">{{ album.artist }}</span><span class="title">{{ album.title }}</span></a>
+	<a class="delete hidden" href="album/delete?id={{ album.key.id }}">Delete</a>
+</li>

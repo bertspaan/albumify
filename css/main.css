@@ -1,5 +1,6 @@
 body {
 	background-color: #070308;
+	color: #ffffff; 
 	font-family: Corbel,
              "Lucida Grande",
              "Lucida Sans Unicode",
@@ -12,11 +13,25 @@ body {
 	font-size: 12px;
 }
 
+.hidden {
+	display: none;
+}
+
+.delete {
+	position: absolute;
+	top: 0.5em;
+	right: 0.9em;
+	padding: 2px 4px;
+	background-color: white;
+}
+
 ul#albums {
 	list-style-position: none;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
+	width: 100%;
+	height: 100%;
 }
 
 ul#albums a {
@@ -29,14 +44,23 @@ ul#albums li {
 	margin: 4px;
 	width: 185px;
 	text-align: center;
+	position: relative;
 }
 
 ul#albums li img {
-	padding: 1px;
-	background-color: #ffffff;
+
 }
 
-ul#albums li span {
-	color: #ffffff; 	
+ul#albums li span {	
+	color: #ffffff; 
 	font-size: 90%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 170px;
+	display:block;	
+}
+
+span.title {
+	font-weight: bold;
 }

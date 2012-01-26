@@ -7,7 +7,68 @@ $(document).ready(function() {
 			location.href = uri;
 		}
 	});	
+	
+	$("#albums").sortable({
+		update: function(event, ui) {
+			//event.preventDefault();    	
+			//var index = ui.item.index();	          
+			//var id = $('#albums li:nth-child(' + index + ')').attr('data-internalid');			
+
+			var order = new Array();
+
+			$('#albums li').each(function(index) {
+			    order.push($(this).attr('data-internalid'));
+			});			
+			
+			$.getJSON(
+				'album/order',
+				{
+					ids: order.join(',')
+				},
+				function(data) {
+					return data.result == 'success';
+				}
+			);
+			
+		}
+	});
+	
+	$("#albums").on("click", ".delete", function(event){
+		event.preventDefault();
+		var album = $(this).parent('li');
+		return albumDelete(album);
+	});
+	
+	$('#header').on('click', '#delete', function(event){
+		event.preventDefault();
+		$('.delete').toggleClass('hidden');
+	});
+	
+/*	$(".delete").click(function(event) {
+		event.preventDefault();
+		var album = $(this).parent('li');
+		albumDelete(album);
+	});*/
 });
+
+
+function albumDelete(albumListItem) {
+	var id = albumListItem.attr('data-internalid');
+	$.getJSON(
+		'album/delete',
+		{
+			id: id
+		},
+		function(data) {				
+			if (data.result == 'success') {
+				albumListItem.remove();
+				return true;
+			} else {
+				return false;
+			}			
+		}			 
+	);
+}
 
 //spotify:album:3NpEREN7HE6wImHtPpPK0H
 //spotify:album:5YnNB8Wcs2150AcgTey3Cx
@@ -29,17 +90,15 @@ function spotifyLookUp(uri) {
 				'http://ws.audioscrobbler.com/2.0/',
 				{
 					method: 'album.getinfo',
-					api_key: '',
+					api_key: 'c7b42c8420929b071f04dde846040232',
 					format: 'json',
 					artist: artist,
 					album: title
 				}, 					
 				function(data) {
-					var image = data.album.image[2]['#text'];			
-					$("#albums").append('<li><a href="' + uri + '"><img src="' + image + '"/><span>' + artist + ' - ' + title + '</span></a></li>');
-					
+					var image = data.album.image[2]['#text'];				
 					$.getJSON(
-						'album',
+						'album/add',
 						{
 							artist: artist,
 							title: title,
@@ -47,7 +106,9 @@ function spotifyLookUp(uri) {
 							image: image 
 						},
 						function(data) {
-							// vis!
+							if (data.result == 'success') {
+								$("#albums").append(data.data);
+							}
 						}
 					)
 				}

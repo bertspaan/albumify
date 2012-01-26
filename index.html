@@ -4,16 +4,17 @@
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 	</head>
 	<body>
-		<p>{{ user }}'s Album List</p>
+		<div id="header">
+		<p>{{ username }}'s Album List (<a id="delete" href="/">toggle delete mode<a>)</p>
+	</div>
 		<ul id="albums">
 		{% for album in albums %}
-			<li>				
-	    	<a class="album" href="{{ album.uri }}"><img src="{{ album.image }}" /><span>{{ album.artist }} - {{ album.title }}</span></a>				
-			</li>		    
-			{% endfor %}			
+			{{ album }}	    
+		{% endfor %}			
 		</ul>
 		<iframe id="open" style="display: none;" src=""></iframe>
-		<script src="js/jquery-1.7.min.js"></script> 
+		<script src="js/jquery-1.7.min.js"></script>
+		<script src="js/jquery-ui-1.8.16.custom.min.js"></script>
 		<script type="text/javascript" src="js/lastfm.api.js"></script>
 		<script src="js/lib.js"></script>
 		<script src="js/main.js"></script>
