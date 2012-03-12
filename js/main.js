@@ -142,7 +142,7 @@ addEvent(drop, 'dragenter', cancel);
 
 function getUri(link) {
 	// Apparently windows and Mac clients use : and / as separators respectively
-	var result = link.match(/album[/:]{1}(.*)\"/)[1];
+	var result = link.match(/[/:]{1}album[/:]{1}(.*)\"/)[1];
 	return result;
 }
 
