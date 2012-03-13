@@ -69,7 +69,6 @@ class AlbumAddHandler(webapp.RequestHandler):
 
 class AlbumDeleteHandler(webapp.RequestHandler):
 	def get(self):
-		succes = False
 		user = users.get_current_user()
 
 		if user:
@@ -77,12 +76,15 @@ class AlbumDeleteHandler(webapp.RequestHandler):
 		
 			# parent = user????
 			album = Album.get_by_id(id)
-			if album is not None:
+			if album:
 				if album.user == user:
-					album.delete()
-					succes = True
+					try:
+						album.delete()
+						success = True
+					except db.NotSavedError:
+						success = False
 
-		self.response.out.write(jsonSuccess(succes))
+		self.response.out.write(jsonSuccess(success))
 
 class AlbumOrderHandler(webapp.RequestHandler):
 	def get(self):
