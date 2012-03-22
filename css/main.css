@@ -19,10 +19,11 @@ body {
 
 .delete {
 	position: absolute;
-	top: 0.5em;
-	right: 0.9em;
+	top: 25px;
+	right: 25px;
 	padding: 2px 4px;
-	background-color: white;
+	background-color: #ccc;
+	display: none;
 }
 
 ul#albums {
@@ -42,13 +43,24 @@ ul#albums li {
 	display: inline;
 	float: left;
 	margin: 4px;
-	width: 185px;
 	text-align: center;
 	position: relative;
 }
 
-ul#albums li img {
+ul#albums .album {
+	padding: 25px;
+	border-radius: 25px;
+	display: block;
+	-webkit-transition: background-color 400ms ease-out;
+	-moz-transition: background-color 400ms ease-out;
+}
 
+ul#albums .album:hover {
+	background-color: #333;
+}
+
+ul#albums .album:hover .delete {
+	display: block;
 }
 
 ul#albums li span {	
