@@ -19,53 +19,53 @@ class Album(db.Model):
 	user = db.UserProperty()
 	order = db.IntegerProperty()
 
+	templatePath = os.path.join(os.path.dirname(__file__), 'album.html')
+
+	@staticmethod
+	def getAll():
+		user = users.get_current_user()
+		query = Album.all();
+		query.filter("user =", user)
+		query.order("order")
+		return query
+
+	def render(self):
+		htmlAlbum = template.render(self.templatePath, {'album' : self})
+		return htmlAlbum
+
 class MainHandler(webapp.RequestHandler):
+
 	def get(self):
 		user = users.get_current_user()
-
-		if user:		
-			query = Album.all()		
-			query.filter("user =", user)
-			query.order('order')
-			
-			path_album = os.path.join(os.path.dirname(__file__), 'album.html')
-			albums = []
-			for album in query:				
-				albums.append(template.render(path_album, {'album': album}))
-			
-			template_values = {
-				'albums': albums,
-				'username': user.nickname()				
-			}	
-			path_index = os.path.join(os.path.dirname(__file__), 'index.html')
-			self.response.out.write(template.render(path_index, template_values))
-		else:
+		if user is None:
 			self.redirect(users.create_login_url(self.request.uri))
+			return
+		query = Album.getAll()		
+		htmlAlbums = [album.render() for album in query]
+		template_values = {
+			'albums' : htmlAlbums,
+			'username' : user.nickname()				
+		}	
+		indexTmplPath = os.path.join(os.path.dirname(__file__), 'index.html')
+		self.response.out.write(template.render(indexTmplPath, template_values))
 
 class AlbumAddHandler(webapp.RequestHandler):
 	def get(self):
 		user = users.get_current_user()
-		
-		if user:		
-			query = Album.all()		
-			query.filter("user =", user)			
-			
-			artist = self.request.get('artist')
-			title = self.request.get('title')
-			# key = uri??
-			uri	= self.request.get('uri')
-			image = self.request.get('image')
-			order = query.count() + 1
-
-			album = Album(artist=artist, title=title, uri=uri, image=image, user=user, order=order)
-			album.put()
-			
-			path = os.path.join(os.path.dirname(__file__), 'album.html')		
-			html = template.render(path, {'album': album})		
-			json = simplejson.dumps({'result': 'success', 'data': html})
-			self.response.out.write(json)
-		else:
+		if user is None:
 			self.redirect(users.create_login_url(self.request.uri))
+			return
+		query = Album.getAll()		
+		order = query.count() + 1
+		artist = self.request.get('artist')
+		title = self.request.get('title')
+		uri	= self.request.get('uri')
+		image = self.request.get('image')
+		album = Album(artist=artist, title=title, uri=uri, image=image, user=user, order=order)
+		album.put()
+		html = album.render()		
+		json = simplejson.dumps({'result': 'success', 'data': html})
+		self.response.out.write(json)
 
 class AlbumDeleteHandler(webapp.RequestHandler):
 	def get(self):
@@ -90,21 +90,17 @@ class AlbumOrderHandler(webapp.RequestHandler):
 	def get(self):
 		succes = False
 		user = users.get_current_user()
-
 		if user:			
 			order = 0
 			ids = map(int, self.request.get('ids').split(','))			
 			for id in ids:				
 				# parent = user????
 				album = Album.get_by_id(id)			
-					
 				if album is not None and album.user == user:									
 					album.order = order
-					album.put()				
-					
+					album.put()
 					order += 1					
 					succes = True
-			
 		self.response.out.write(jsonSuccess(succes))
 
 class SpotifyAlbumsHandler(webapp.RequestHandler):
