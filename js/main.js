@@ -142,15 +142,18 @@ addEvent(drop, 'dragenter', cancel);
 
 function getUri(link) {
 	// Apparently windows and Mac clients use : and / as separators respectively
-	var result = link.match(/[/:]{1}album[/:]{1}(.*)\"/)[1];
+	var result = link.match("[:/]{1}album[/:]{1}(.*)")[1];
 	return result;
 }
 
 addEvent(drop, 'drop', function (e) {
 	if (e.preventDefault) e.preventDefault();  
 	if (e.dataTransfer.types) {  
-		var link = e.dataTransfer.getData('text/html');
+		types = e.dataTransfer.types;
+		var link = e.dataTransfer.getData("text/plain");
+		alert(link);
 		var albumUri = getUri(link);
+		alert(albumUri);
 		spotifyLookUp('spotify:album:' + albumUri);
 	}
 	return false;
