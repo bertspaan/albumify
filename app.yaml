@@ -1,7 +1,7 @@
 application: albumify
 version: 1
 runtime: python
-api_version: 1
+api_version: 3
 
 handlers:
 - url: /favicon\.ico
