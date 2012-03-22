@@ -35,7 +35,7 @@ $(document).ready(function() {
 	
 	$("#albums").on("click", ".delete", function(event){
 		event.preventDefault();
-		var album = $(this).parent('li');
+		var album = $(this).parent('div').parent('li');
 		return albumDelete(album);
 	});
 	
@@ -151,9 +151,7 @@ addEvent(drop, 'drop', function (e) {
 	if (e.dataTransfer.types) {  
 		types = e.dataTransfer.types;
 		var link = e.dataTransfer.getData("text/plain");
-		alert(link);
 		var albumUri = getUri(link);
-		alert(albumUri);
 		spotifyLookUp('spotify:album:' + albumUri);
 	}
 	return false;
