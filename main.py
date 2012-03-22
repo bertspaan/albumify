@@ -29,6 +29,18 @@ class Album(db.Model):
 		query.order("order")
 		return query
 
+	@classmethod
+	def get_by_id(cls, ids, parent=None, **kwargs):
+		album = super(Album, cls).get_by_id(ids, parent=parent, **kwargs)
+		if users.get_current_user() != album.user:
+			raise "Not allowed"
+		return album
+
+	def delete(self, **kwargs):
+		if users.get_current_user() != self.user:
+			raise "Not allowed"
+		db.Model.delete(self, **kwargs)
+
 	def render(self):
 		htmlAlbum = template.render(self.templatePath, {'album' : self})
 		return htmlAlbum
@@ -70,52 +82,46 @@ class AlbumAddHandler(webapp.RequestHandler):
 class AlbumDeleteHandler(webapp.RequestHandler):
 	def get(self):
 		user = users.get_current_user()
-
-		if user:
-			id = int(self.request.get('id'))	
-		
-			# parent = user????
-			album = Album.get_by_id(id)
-			if album:
-				if album.user == user:
-					try:
-						album.delete()
-						success = True
-					except db.NotSavedError:
-						success = False
-
+		if user is None:
+			return
+		albumId = int(self.request.get('id'))	
+		album = Album.get_by_id(albumId)
+		try:
+			album.delete()
+			success = True
+		except db.NotSavedError:
+			success = False
 		self.response.out.write(jsonSuccess(success))
 
 class AlbumOrderHandler(webapp.RequestHandler):
 	def get(self):
-		succes = False
 		user = users.get_current_user()
-		if user:			
-			order = 0
-			ids = map(int, self.request.get('ids').split(','))			
-			for id in ids:				
-				# parent = user????
-				album = Album.get_by_id(id)			
-				if album is not None and album.user == user:									
-					album.order = order
-					album.put()
-					order += 1					
-					succes = True
-		self.response.out.write(jsonSuccess(succes))
+		if user is None:
+			return
+		order = 0
+		ids = map(int, self.request.get('ids').split(','))			
+		for albumId in ids:				
+			album = Album.get_by_id(albumId)			
+			if album is None:
+				continue
+			album.order = order
+			try:
+				album.put()
+				order += 1
+			except db.NotSavedError:
+				self.response.out.write(jsonSuccess(False))
+				return
+		self.response.out.write(jsonSuccess(True))
 
 class SpotifyAlbumsHandler(webapp.RequestHandler):
 	def get(self):
 		self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-		query = Album.all()		
+		query = Album.getAll()		
 		query.order('order')
-
 		callback = self.request.get('callback')
-
-		path_album = os.path.join(os.path.dirname(__file__), 'album.html')
 		albums = []
 		for album in query:				
 			albums.append(album.uri)
-			
 		json = simplejson.dumps({'albums': albums})
 		if callback:
 			self.response.headers["Content-Type"] = "application/javascript"		
@@ -123,7 +129,6 @@ class SpotifyAlbumsHandler(webapp.RequestHandler):
 		else:
 			self.response.headers["Content-Type"] = "application/json"
 			self.response.out.write(json)	
-
 
 def jsonSuccess(succes):
 	return '{"result":"success"}' if succes else '{"result":"failed"}'
