@@ -22,8 +22,15 @@ body {
 	top: 25px;
 	right: 25px;
 	padding: 2px 4px;
-	background-color: #ccc;
+	background-color: #ddd;
+	opacity: .8;
 	display: none;
+	color: #000;
+}
+
+.delete:hover {
+	opacity: .95;
+	color: red;
 }
 
 ul#albums {
@@ -51,12 +58,16 @@ ul#albums .album {
 	padding: 25px;
 	border-radius: 25px;
 	display: block;
-	-webkit-transition: background-color 400ms ease-out;
-	-moz-transition: background-color 400ms ease-out;
+	opacity: .8;
+	-webkit-transition: opacity 1s ease-out;
+	-webkit-transition: background-color 300ms ease-out;
+	-moz-transition: opacity 1s ease-out;
+	-moz-transition: background-color 300ms ease-out;
 }
 
 ul#albums .album:hover {
-	background-color: #333;
+	background-color: #666;
+	opacity: 1;
 }
 
 ul#albums .album:hover .delete {
@@ -69,8 +80,11 @@ ul#albums li span {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	width: 170px;
 	display:block;	
+}
+
+ul#albums .artist {
+	margin-top: 10px;
 }
 
 span.title {
