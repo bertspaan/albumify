@@ -36,10 +36,9 @@ var AlbumifyApp = function() {
 	uid = models.session.anonymousUserID;
 
 	models.application.observe(models.EVENT.LINKSCHANGED, function() {
-		console.log("Application activated!");
+		var uris = sp.core.getLinks();
 		for (var i = 0; i < uris.length; i++) {
 			var uri = uris[i];
-			
 		}
 		
 	});
