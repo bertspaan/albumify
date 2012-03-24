@@ -13,7 +13,7 @@ class Album(db.Model):
 	artist = db.StringProperty()
 	title = db.StringProperty()
 	uri = db.StringProperty(indexed=False)
-	image = db.StringProperty(indexed=False)
+	uid = db.StringProperty(indexed=True)
 	added = db.DateTimeProperty(auto_now_add=True)
 	order = db.IntegerProperty()
 
@@ -64,8 +64,7 @@ class AlbumAddHandler(webapp.RequestHandler):
 		artist = self.request.get('artist')
 		title = self.request.get('title')
 		uri	= self.request.get('uri')
-		image = self.request.get('image')
-		album = Album(artist=artist, title=title, uri=uri, image=image, uid=uid, order=order)
+		album = Album(artist=artist, title=title, uri=uri, uid=uid, order=order)
 		album.put()
 		html = album.render()
 		json = simplejson.dumps({'result': 'success', 'data': html})
