@@ -1,5 +1,5 @@
 body {
-	background-color: #070308;
+/*	background-color: #070308;
 	color: #ffffff; 
 	font-family: Corbel,
              "Lucida Grande",
@@ -10,7 +10,7 @@ body {
              "Liberation Sans",
              Verdana,
              sans-serif;
-	font-size: 12px;
+	font-size: 12px;*/
 }
 
 .hidden {
@@ -19,18 +19,20 @@ body {
 
 .delete {
 	position: absolute;
-	top: 25px;
-	right: 25px;
+	top: 20px;
+	right: 30px;
 	padding: 2px 4px;
 	background-color: #ddd;
 	opacity: .8;
 	display: none;
 	color: #000;
+	z-index: 990;
 }
 
 .delete:hover {
 	opacity: .95;
-	color: red;
+	/*color: red;*/
+	text-decoration: underline;
 }
 
 ul#albums {
@@ -55,7 +57,7 @@ ul#albums li {
 }
 
 ul#albums .album {
-	padding: 25px;
+	padding: 20px 15px;
 	border-radius: 25px;
 	display: block;
 	width: 158px;
@@ -90,4 +92,68 @@ ul#albums .artist {
 
 span.title {
 	font-weight: bold;
+}
+
+
+.block {
+width: 128px;
+position: relative;
+height: 128px;
+left: 15px;
+}
+
+.album-options {
+	display: inline-block;
+	height: 128px;
+	position: relative;
+	width: 128px;
+	z-index: 10;
+}
+
+.panel .front {
+	float: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 900;
+	width: inherit;
+	height: inherit;
+	text-align: center;
+			
+	-webkit-transform: rotateY(0deg);
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+
+	/* -- transition is the magic sauce for animation -- */
+	-webkit-transition: all .4s ease-in-out;
+	transition: all .4s ease-in-out;
+}
+		
+.panel.flip .front {
+	z-index: 900;
+	-webkit-transform: rotateY(180deg);
+}
+		
+.panel .back {
+	float: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 800;
+	width: inherit;
+	height: inherit;
+		
+	-webkit-transform: rotateY(-180deg);
+	-webkit-transform-style: preserve-3d;
+	-webkit-backface-visibility: hidden;
+	-webkit-transition: all .4s ease-in-out;
+			
+	transition: all .4s ease-in-out;
+	background-color: white;
+}
+		
+.panel.flip .back {
+	z-index: 1000;
+			
+	-webkit-transform: rotateY(0deg);
 }

@@ -89,6 +89,26 @@ var AlbumifyApp = function() {
 			saveAlbum(album);
 		}
 	});
+	
+	function addAlbum(uri) {
+		models.Album.fromURI(uri, function(album) {
+
+			var playerView = new views.Player();
+			var uri = album.data.uri;
+			playerView.context = album;
+
+			//$('#albums').append('<li><div class="album"><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="delete" href="album/delete?id=vis">Delete</a></div></li>');
+			//$('#albums li div').last().prepend(playerView.node);
+			
+			$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"></div><div class="back"><div class="album-options"><span>Achterkant!</span></div></div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="delete">Options</a></div></li>');
+			$('.front').last().prepend(playerView.node);
+			
+			$('.album .delete').click(function() {
+				$(this).parents('.album').children('.block').addClass('flip');
+			
+			});
+		});
+	};
 
     this.start = function() {
 		
@@ -103,6 +123,7 @@ var AlbumifyApp = function() {
 				for(var i in albums) {
 					var uri = albums[i];
 					appendAlbum(uri);
+
 				}
 			}
 		);
