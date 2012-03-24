@@ -27,10 +27,6 @@ function addAlbums(data) {
 
 var AlbumifyApp = function() {
 
-    var app = this;
-
-    // Intentionally global;
-    // Set up for spotify supplied components
     sp = getSpotifyApi(1);
 	
 	jQuery.ajaxSettings.traditional = true;  
@@ -38,6 +34,11 @@ var AlbumifyApp = function() {
 	models = sp.require("sp://import/scripts/api/models");
 	views = sp.require("sp://import/scripts/api/views");
 	uid = models.session.anonymousUserID;
+
+	models.application.observe(models.EVENT.LINKSCHANGED, function() {
+		console.log("Application activated!");
+		var vis = sp.core.getLinks();
+	});
 
     this.start = function() {
 		
