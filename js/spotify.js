@@ -49,15 +49,12 @@ var AlbumifyApp = function() {
 			//$('#albums').append('<li><div class="album"><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="delete" href="album/delete?id=vis">Delete</a></div></li>');
 			//$('#albums li div').last().prepend(playerView.node);
 			
-			$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"><a class="delete" href="album/delete?id=vis">Delete</a></div><div class="back"><span>Achterkant!</span></div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span></div></li>');
+			$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"></div><div class="back"><div class="album-options"><span>Achterkant!</span></div></div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="delete">Options</a></div></li>');
 			$('.front').last().prepend(playerView.node);
 			
+			$('.album .delete').click(function() {
+				$(this).parents('.album').children('.block').addClass('flip');
 			
-			
-
-
-			$('.block .delete').click(function(){
-				$(this).parent('.panel').addClass('flip');
 			});
 		});
 	};
