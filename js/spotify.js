@@ -35,14 +35,11 @@ function handleUri(uri) {
 		models.Track.fromURI(uri, function(track) {
 			saveAlbum(track.album);
 		});
-		return album 
 	} else if(sEntity == "album") {
 		models.Album.fromURI(uri, function(album) { 
 			saveAlbum(album);
 		});
 	}
-	alert("FOUT");
-	return;
 }
 
 function saveAlbum(album) {
@@ -55,20 +52,19 @@ function saveAlbum(album) {
 			"uri": album.uri
 		},
 		function(data) {
-			var vlees = data;
 			appendAlbum(data.id, album.uri);
 		}
 	)
 }
 
-function appendAlbum(uri) {
+function appendAlbum(id, uri) {
 	models.Album.fromURI(uri, function(album) {
 	   
 		var playerView = new views.Player();
 		var uri = album.data.uri;
 		playerView.context = album;
 			
-		$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"></div><div class="back">PATAT</div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="options">Options</a></div></li>');
+		$('#albums').append('<li><div class="album" dbid="' + id + '"><div class="block panel"><div class="front"></div><div class="back">PATAT</div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="options">Options</a></div></li>');
 		$('.front').last().prepend(playerView.node);
 			
 		$('.album .options').click(function() {
