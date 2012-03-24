@@ -42,7 +42,7 @@ var AlbumifyApp = function() {
     this.start = function() {
 		
 		$.getJSON(
-			'http://albumify.appspot.com/spotify/albums?callback=?', 
+			'http://albumify.appspot.com/spotify/albums?uid=' + uid, 
 			{ 'format':'jsonp'},
 			function(data) {
 				
