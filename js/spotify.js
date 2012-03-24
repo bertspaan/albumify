@@ -37,7 +37,7 @@ var AlbumifyApp = function() {
 	
 	models = sp.require("sp://import/scripts/api/models");
 	views = sp.require("sp://import/scripts/api/views");
-	uid = models.session.anonymousUserId;
+	uid = models.session.anonymousUserID;
 
     this.start = function() {
 		
