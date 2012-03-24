@@ -1,11 +1,14 @@
 $(document).ready(function() {	
 	$("#albums").sortable({
 		update: function(event, ui) {			
+			
+			
+			
 			var order = new Array();
-
+			/*
 			$('#albums li').each(function(index) {
 			    order.push($(this).attr('data-internalid'));
-			});			
+			});	*/		
 			/*
 			$.getJSON(
 				'album/order',
@@ -44,7 +47,7 @@ function handleUri(uri) {
 
 function saveAlbum(album) {
 	$.getJSON(
-		'http://albumify.appspot.com/album/add',
+		'http://albumify.appspot.com/spotify/add',
 		{
 			"artist": album.artist,
 			"title": album.name,
@@ -53,7 +56,7 @@ function saveAlbum(album) {
 		},
 		function(data) {
 			var vlees = data;
-			appendAlbum(album.uri);
+			appendAlbum(data.id, album.uri);
 		}
 	)
 }
@@ -108,7 +111,8 @@ var AlbumifyApp = function() {
 				
 				for(var i in albums) {
 					var uri = albums[i].uri;
-					appendAlbum(uri);
+					var id = albums[i].id;
+					appendAlbum(id, uri);
 
 				}
 			}
