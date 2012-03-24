@@ -10,7 +10,7 @@
         "en"
     ],
 		"AcceptedLinkTypes": [
-				"album", "song"
+				"album", "track"
 		],
 		"RequiredPermissions": [ 
 				"http://albumify.appspot.com",
