@@ -65,10 +65,10 @@ function appendAlbum(uri) {
 		var uri = album.data.uri;
 		playerView.context = album;
 			
-		$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"></div><div class="back">PATAT</div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="delete">Options</a></div></li>');
+		$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"></div><div class="back">PATAT</div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="options">Options</a></div></li>');
 		$('.front').last().prepend(playerView.node);
 			
-		$('.album .delete').click(function() {
+		$('.album .options').click(function() {
 			$(this).parents('.album').children('.block').addClass('flip');
 		});
 		$('.album').mouseleave(function() {
