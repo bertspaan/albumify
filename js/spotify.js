@@ -25,16 +25,18 @@ function addAlbums(data) {
 	   console.log(data);
 }
 
-function getAlbumFromUri(uri) {
-	alert(uri);
+function handleUri(uri) {
 	var matcher = uri.match("spotify:(.+):.+");
 	var sEntity = matcher[1];
-	alert(sEntity);
 	if(sEntity == "track") {
-		var album = models.Track.fromURI(uri).album;
+		models.Track.fromURI(uri, function(track) {
+			saveAlbum(track.album);
+		});
 		return album 
 	} else if(sEntity == "album") {
-		return models.Album.fromURI(uri);
+		models.Album.fromURI(uri, function(album) { 
+			saveAlbum(album);
+		});
 	}
 	alert("FOUT");
 	return;
@@ -50,7 +52,6 @@ function saveAlbum(album) {
 			"uri": album.uri
 		},
 		function(data) {
-			alert("asd");
 			var vlees = data;
 			appendAlbum(album.uri);
 		}
@@ -84,9 +85,7 @@ var AlbumifyApp = function() {
 		var uris = sp.core.getLinks();
 		for (var i = 0; i < uris.length; i++) {
 			var uri = uris[i];
-			var album = getAlbumFromUri(uri);
-			alert(album.name);
-			saveAlbum(album);
+			handleUri(uri);
 		}
 	});
 
