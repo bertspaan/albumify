@@ -21,10 +21,6 @@ $(document).ready(function() {
 	});
 });
 
-function addAlbums(data) {
-	   console.log(data);
-}
-
 var AlbumifyApp = function() {
 
     sp = getSpotifyApi(1);
@@ -42,6 +38,29 @@ var AlbumifyApp = function() {
 		}
 		
 	});
+	
+	function addAlbum(uri) {
+		models.Album.fromURI(uri, function(album) {
+
+			var playerView = new views.Player();
+			var uri = album.data.uri;
+			playerView.context = album;
+
+			//$('#albums').append('<li><div class="album"><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="delete" href="album/delete?id=vis">Delete</a></div></li>');
+			//$('#albums li div').last().prepend(playerView.node);
+			
+			$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"><a class="delete" href="album/delete?id=vis">Delete</a></div><div class="back"><span>Achterkant!</span></div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span></div></li>');
+			$('.front').last().prepend(playerView.node);
+			
+			
+			
+
+
+			$('.block .delete').click(function(){
+				$(this).parent('.panel').addClass('flip');
+			});
+		});
+	};
 
     this.start = function() {
 		
@@ -55,16 +74,7 @@ var AlbumifyApp = function() {
 				
 				for(var i in albums) {
 					var uri = albums[i];
-					models.Album.fromURI(uri, function(album) {
-						
-						var playerView = new views.Player();
-						var uri = album.data.uri;
-						playerView.context = album;
-	
-						$('#albums').append('<li><div class="album"><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span></div></li>');
-						$('#albums li div').last().prepend(playerView.node);
-			
-					});			
+					addAlbum(uri);			
 				}
 			}
 		);
