@@ -124,7 +124,7 @@ var AlbumifyApp = function() {
 				albums = data.albums
 				
 				for(var i in albums) {
-					var uri = albums[i];
+					var uri = albums[i].uri;
 					appendAlbum(uri);
 
 				}
