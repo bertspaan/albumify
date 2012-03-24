@@ -19,8 +19,8 @@ body {
 
 .delete {
 	position: absolute;
-	top: 25px;
-	right: 40px;
+	top: 20px;
+	right: 30px;
 	padding: 2px 4px;
 	background-color: #ddd;
 	opacity: .8;
@@ -31,7 +31,7 @@ body {
 
 .delete:hover {
 	opacity: .95;
-	color: red;
+	/*color: red;*/
 	text-decoration: underline;
 }
 
