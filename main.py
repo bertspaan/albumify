@@ -29,7 +29,7 @@ class Album(db.Model):
 	@classmethod
 	def get_by_id(cls, ids, parent=None, **kwargs):
 		uid = kwargs['uid']
-		album = super(Album, cls).get_by_id(ids, parent=parent, {})
+		album = super(Album, cls).get_by_id(ids, parent=parent, placeholder=None)
 		if uid != album.uid:
 			raise "Not allowed"
 		return album

@@ -73,9 +73,9 @@ function appendAlbum(id, uri) {
 		$('.album').mouseleave(function() {
 			$(this).children('.block').removeClass('flip');
 		});
-		`
+		
 		$('.album .delete').click(function() {
-
+			alert('delete');
 		});
 
 	});  
