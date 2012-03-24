@@ -2,24 +2,22 @@ $(document).ready(function() {
 	$("#albums").sortable({
 		update: function(event, ui) {			
 			
-			
-			
 			var order = new Array();
-			/*
-			$('#albums li').each(function(index) {
-			    order.push($(this).attr('data-internalid'));
-			});	*/		
-			/*
+			
+			$('#albums li .album').each(function(index) {
+			    order.push($(this).attr('dbid'));
+			});
+			
 			$.getJSON(
-				'album/order',
+				'http://albumify.appspot.com/album/order',
 				{
+					uid: uid,
 					ids: order.join(',')
 				},
 				function(data) {
 					return data.result == 'success';
 				}
 			);
-			*/
 		}
 	});
 });
