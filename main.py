@@ -61,6 +61,12 @@ class MainHandler(webapp.RequestHandler):
 		indexTmplPath = os.path.join(os.path.dirname(__file__), 'webapp.html')
 		self.response.out.write(template.render(indexTmplPath, template_values))
 
+class LoggedIn(webapp.RequestHandler):
+	def get(self):
+		user = users.get_current_user()
+		json = simplejson.dumps({"loggedIn": user is not None})
+		self.response.out.write(json)
+
 class AlbumAddHandler(webapp.RequestHandler):
 	def get(self):
 		user = users.get_current_user()
@@ -129,7 +135,6 @@ class SpotifyAlbumsHandler(webapp.RequestHandler):
 		else:
 			self.response.headers["Content-Type"] = "application/json"
 			self.response.out.write(json)	
-
 def jsonSuccess(succes):
 	return '{"result":"success"}' if succes else '{"result":"failed"}'
 
@@ -138,7 +143,8 @@ def main():
 		('/', MainHandler), ('/album/add', AlbumAddHandler), 
 		('/album/delete', AlbumDeleteHandler), 
 		('/album/order', AlbumOrderHandler),
-		('/spotify/albums', SpotifyAlbumsHandler)
+		('/spotify/albums', SpotifyAlbumsHandler),
+		('/loggedIn', LoggedIn),
 	],debug=True)
 	util.run_wsgi_app(application)
 
