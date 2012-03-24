@@ -61,19 +61,23 @@ function saveAlbum(album) {
 function appendAlbum(uri) {
 	models.Album.fromURI(uri, function(album) {
 	   
-	   var playerView = new views.Player();
-	   var uri = album.data.uri;
-	   playerView.context = album;
-
-	   $('#albums').append('<li><div class="album"><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span></div></li>');
-	   $('#albums li div').last().prepend(playerView.node);
+		var playerView = new views.Player();
+		var uri = album.data.uri;
+		playerView.context = album;
+			
+		$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"></div><div class="back"><div class="album-options"><span>Achterkant!</span></div></div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="delete">Options</a></div></li>');
+		$('.front').last().prepend(playerView.node);
+			
+		$('.album .delete').click(function() {
+			$(this).parents('.album').children('.block').addClass('flip');
+		});
 
 	});  
 }
 
 var AlbumifyApp = function() {
 
-    sp = getSpotifyApi(1);
+	sp = getSpotifyApi(1);
 	
 	jQuery.ajaxSettings.traditional = true;  
 	
