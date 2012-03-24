@@ -99,6 +99,19 @@ class AlbumOrderHandler(webapp.RequestHandler):
 				return
 		self.response.out.write(jsonSuccess(True))
 
+class SpotifyAlbumAddHandler(webapp.RequestHandler):
+	def get(self):
+		uid = self.request.get("uid")
+		query = Album.getAll(uid)		
+		order = query.count() + 1
+		artist = self.request.get('artist')
+		title = self.request.get('title')
+		uri	= self.request.get('uri')
+		album = Album(artist=artist, title=title, uri=uri, uid=uid, order=order)
+		album.put()
+		json = simplejson.dumps({'id': album.key().id(), 'uri': uri})
+		self.response.out.write(json)
+
 class SpotifyAlbumsHandler(webapp.RequestHandler):
 	def get(self):
 		self.response.headers.add_header("Access-Control-Allow-Origin", "*")
@@ -108,7 +121,7 @@ class SpotifyAlbumsHandler(webapp.RequestHandler):
 		callback = self.request.get('callback')
 		albums = []
 		for album in query:				
-			albums.append({'order': album.order, 'uri': album.uri})
+			albums.append({'id': album.key().id(), 'uri': album.uri})
 		json = simplejson.dumps({'albums': albums})
 		if callback:
 			self.response.headers["Content-Type"] = "application/javascript"		
@@ -126,6 +139,7 @@ def main():
 		('/album/delete', AlbumDeleteHandler), 
 		('/album/order', AlbumOrderHandler),
 		('/spotify/albums', SpotifyAlbumsHandler),
+		('/spotify/add', SpotifyAlbumAddHandler),
 	],debug=True)
 	util.run_wsgi_app(application)
 

@@ -1,11 +1,14 @@
 $(document).ready(function() {	
 	$("#albums").sortable({
 		update: function(event, ui) {			
+			
+			
+			
 			var order = new Array();
-
+			/*
 			$('#albums li').each(function(index) {
 			    order.push($(this).attr('data-internalid'));
-			});			
+			});	*/		
 			/*
 			$.getJSON(
 				'album/order',
@@ -32,19 +35,16 @@ function handleUri(uri) {
 		models.Track.fromURI(uri, function(track) {
 			saveAlbum(track.album);
 		});
-		return album 
 	} else if(sEntity == "album") {
 		models.Album.fromURI(uri, function(album) { 
 			saveAlbum(album);
 		});
 	}
-	alert("FOUT");
-	return;
 }
 
 function saveAlbum(album) {
 	$.getJSON(
-		'http://albumify.appspot.com/album/add',
+		'http://albumify.appspot.com/spotify/add',
 		{
 			"artist": album.artist,
 			"title": album.name,
@@ -52,20 +52,20 @@ function saveAlbum(album) {
 			"uri": album.uri
 		},
 		function(data) {
-			var vlees = data;
-			appendAlbum(album.uri);
+			appendAlbum(data.id, album.uri);
 		}
 	)
 }
 
-function appendAlbum(uri) {
+function appendAlbum(id, uri) {
 	models.Album.fromURI(uri, function(album) {
 	   
 		var playerView = new views.Player();
 		var uri = album.data.uri;
 		playerView.context = album;
 			
-		$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"></div><div class="back"><a class="delete">Delete</a></div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="options">Options</a></div></li>');
+		$('#albums').append('<li><div class="album" dbid="' + id + '"><div class="block panel"><div class="front"></div><div class="back"><a class="delete">Delete</a></div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="options">Options</a></div></li>');
+
 		$('.front').last().prepend(playerView.node);
 			
 		$('.album .options').click(function() {
@@ -108,7 +108,8 @@ var AlbumifyApp = function() {
 				
 				for(var i in albums) {
 					var uri = albums[i].uri;
-					appendAlbum(uri);
+					var id = albums[i].id;
+					appendAlbum(id, uri);
 
 				}
 			}
