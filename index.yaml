@@ -12,6 +12,11 @@ indexes:
 
 - kind: Album
   properties:
+  - name: uid
+  - name: order
+
+- kind: Album
+  properties:
   - name: user
   - name: order
 
