@@ -58,6 +58,7 @@ ul#albums .album {
 	padding: 25px;
 	border-radius: 25px;
 	display: block;
+	width: 158px;
 	opacity: .8;
 	-webkit-transition: opacity 1s ease-out;
 	-webkit-transition: background-color 300ms ease-out;
