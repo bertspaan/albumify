@@ -65,7 +65,7 @@ function appendAlbum(uri) {
 		var uri = album.data.uri;
 		playerView.context = album;
 			
-		$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"></div><div class="back">PATAT</div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="options">Options</a></div></li>');
+		$('#albums').append('<li><div class="album"><div class="block panel"><div class="front"></div><div class="back"><a class="delete">Delete</a></div></div><span class="artist">' + album.data.artist.name + '</span><span class="title">' + album.data.name + '</span><a class="options">Options</a></div></li>');
 		$('.front').last().prepend(playerView.node);
 			
 		$('.album .options').click(function() {
