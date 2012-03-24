@@ -108,7 +108,7 @@ class SpotifyAlbumsHandler(webapp.RequestHandler):
 		callback = self.request.get('callback')
 		albums = []
 		for album in query:				
-			albums.append(album.uri)
+			albums.append({'order': album.order, 'uri': album.uri})
 		json = simplejson.dumps({'albums': albums})
 		if callback:
 			self.response.headers["Content-Type"] = "application/javascript"		

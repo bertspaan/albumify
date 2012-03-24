@@ -1,20 +1,20 @@
 {
     "BundleType": "Application",
     "AppIcon": {
-        "36x18": "albumify.png"
+        "18x18": "albumify.png"
     },
     "AppName": {
-        "en": "Albumify"
+        "en": "Record Shelf"
     },
     "SupportedLanguages": [
         "en"
     ],
-		"AcceptedLinkTypes": [
-				"album", "track", "albums", "tracks"
-		],
-		"RequiredPermissions": [ 
-				"http://albumify.appspot.com",
-				"http://localhost:8181",
-				"http://vispaard.be:8181"
-		]
+	"AcceptedLinkTypes": [
+		"album", "track", "albums", "tracks"
+	],
+	"RequiredPermissions": [ 
+		"http://albumify.appspot.com",
+		"http://localhost:8181",
+		"http://vispaard.be:8181"
+	]
 }
