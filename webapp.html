@@ -1,0 +1,22 @@
+<html class="drop">
+	<head>
+		<title>Albumify!</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css">
+	</head>
+	<body>
+		<div id="header">
+		<p>{{ username }}'s Album List (<a id="delete" href="/">toggle delete mode<a>)</p>
+	</div>
+		<ul id="albums">
+		{% for album in albums %}
+			{{ album }}	    
+		{% endfor %}			
+		</ul>
+		<iframe id="open" style="display: none;" src=""></iframe>
+		<script src="js/jquery-1.7.min.js"></script>
+		<script src="js/jquery-ui-1.8.16.custom.min.js"></script>
+		<script type="text/javascript" src="js/lastfm.api.js"></script>
+		<script src="js/lib.js"></script>
+		<script src="js/main.js"></script>
+	</body>
+</html>

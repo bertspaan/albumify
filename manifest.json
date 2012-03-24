@@ -1,0 +1,19 @@
+{
+    "BundleType": "Application",
+    "AppIcon": {
+        "36x18": "albumify.png"
+    },
+    "AppName": {
+        "en": "Albumify"
+    },
+    "SupportedLanguages": [
+        "en"
+    ],
+		"AcceptedLinkTypes": [
+				"album", "song"
+		],
+		"RequiredPermissions": [ 
+				"http://albumify.appspot.com",
+				"http://localhost:8181"
+		]
+}

@@ -58,7 +58,7 @@ class MainHandler(webapp.RequestHandler):
 			'albums' : htmlAlbums,
 			'username' : user.nickname()				
 		}	
-		indexTmplPath = os.path.join(os.path.dirname(__file__), 'index.html')
+		indexTmplPath = os.path.join(os.path.dirname(__file__), 'webapp.html')
 		self.response.out.write(template.render(indexTmplPath, template_values))
 
 class AlbumAddHandler(webapp.RequestHandler):
